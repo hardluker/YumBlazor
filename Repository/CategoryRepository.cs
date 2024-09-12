@@ -34,17 +34,30 @@ namespace YumBlazor.Repository
 
         public Category Get(int id)
         {
-            throw new NotImplementedException();
+            var obj = _db.Category.FirstOrDefault(u => u.Id == id);
+            if (obj == null)
+            {
+                return new Category();
+            }
+            return obj;
         }
 
         public IEnumerable<Category> GetAll()
         {
-            throw new NotImplementedException();
+            return _db.Category.ToList();
         }
 
         public Category Update(Category obj)
         {
-            throw new NotImplementedException();
+            var objFromDb = _db.Category.FirstOrDefault(u => u.Id == obj.Id);
+            if (objFromDb is not null) 
+            {
+                objFromDb.Name = obj.Name;
+                _db.Category.Update(objFromDb);
+                _db.SaveChanges();
+                return objFromDb;
+            }
+            return obj;
         }
     }
 }
