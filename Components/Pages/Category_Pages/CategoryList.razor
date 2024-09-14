@@ -50,14 +50,18 @@ else
 }
 
 @code {
-    private bool IsProcessing { get; set; } = false;
+    private bool IsProcessing { get; set; } = true;
     private IEnumerable<Category> Categories { get; set; } = new List<Category>();
 
-    protected override async Task OnInitializedAsync()
+    // This will ensure the data is only loaded once.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        IsProcessing = true;
-        await LoadCategories();
-        IsProcessing = false;
+        if (firstRender)
+        {
+            await LoadCategories();
+            IsProcessing = false;
+            StateHasChanged(); //This is necessary to update the UI.
+        }
     }
 
     private async Task LoadCategories()
