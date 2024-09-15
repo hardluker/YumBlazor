@@ -89,6 +89,7 @@ else
         {
             //Update
             await _categoryRepository.UpdateAsync(Category);
+            await _JS.ToastrSuccess("Category Updated Successfully!");
         }
         IsProcessing = false;
         _navigationManager.NavigateTo("category");
